@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Tabit/Tabit.iml" filepath="$PROJECT_DIR$/Tabit/Tabit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TabitProject.iml" filepath="$PROJECT_DIR$/TabitProject.iml" />
+    </modules>
+  </component>
+</project>
+
