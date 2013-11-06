@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 //test edit
-//test edit 2
 
 
 public class MainActivity extends ActionBarActivity {
