@@ -17,88 +17,24 @@
 
         <TableRow
             android:id="@+id/tableRow1"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 
             <HorizontalScrollView
-                android:id="@+id/horizontalScrollView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:id="@+id/scorePrintingXScrollView1"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_span="2"
+                android:padding="5dp">
 
                 <TableLayout
-                    android:id="@+id/TableLayout1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:padding="5dp"
+                    android:stretchColumns="yes"
+        >
 
-                    <TableRow
-                        android:id="@+id/tableRow6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
-
-                        <EditText
-                            android:id="@+id/highEStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="dsfsdfsfsdffffffffffffffffffffffffffffffffffffffff" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
-
-                        <EditText
-                            android:id="@+id/BStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
-
-                        <EditText
-                            android:id="@+id/GStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
-
-                        <EditText
-                            android:id="@+id/DStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
-
-                        <EditText
-                            android:id="@+id/AStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </TableRow>
-
-                    <TableRow
-                        android:id="@+id/tableRow10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
-
-                        <EditText
-                            android:id="@+id/EStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </TableRow>
-                </TableLayout>
-
+        </TableLayout>
             </HorizontalScrollView>
         </TableRow>
 
