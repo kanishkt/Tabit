@@ -16,8 +16,6 @@ import android.widget.TableLayout;
 
 import com.tabituiuc.tabit.TunerModule;
 
-//test edit
-//test edit
 
 public class MainActivity extends ActionBarActivity {
 
@@ -49,7 +47,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View view) {
-           startNewIntent();
+      startNewIntent();
         }
     }
 
