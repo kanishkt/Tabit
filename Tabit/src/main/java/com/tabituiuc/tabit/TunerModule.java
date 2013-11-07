@@ -51,13 +51,16 @@ private void enableButtons(boolean isRecording) {
 int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
 int BytesPerElement = 2; // 2 bytes in 16bit format
 
-private void startRecording() {
-
+public static void accessRecording(){
     recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
             RECORDER_SAMPLERATE, RECORDER_CHANNELS,
             RECORDER_AUDIO_ENCODING, BufferElements2Rec * BytesPerElement);
 
     recorder.startRecording();
+}
+private void startRecording() {
+
+
     isRecording = true;
     recordingThread = new Thread(new Runnable() {
         public void run() {

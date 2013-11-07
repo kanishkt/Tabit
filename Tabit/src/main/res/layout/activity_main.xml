@@ -21,21 +21,86 @@
             android:layout_height="wrap_content" >
 
             <HorizontalScrollView
-                android:id="@+id/scorePrintingXScrollView1"
+                android:id="@+id/scrollContainer"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_span="2"
                 android:padding="5dp">
 
-                <TableLayout
-                    android:layout_width="wrap_content"
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="5dp"
-                    android:stretchColumns="yes"
-        >
+                    android:id="@+id/scorePrintingXScrollView">
 
-        </TableLayout>
+                    <TableRow
+                        android:id="@+id/tableRow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="5dp" >
+
+                        <EditText
+                            android:id="@+id/highEStringEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="dsfsdfsfsdffffffffffffffffffffffffffffffffffffffff" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="5dp" >
+
+                        <EditText
+                            android:id="@+id/BStringEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="5dp" >
+
+                        <EditText
+                            android:id="@+id/GStringEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="5dp" >
+
+                        <EditText
+                            android:id="@+id/DStringEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="5dp" >
+
+                        <EditText
+                            android:id="@+id/AStringEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="5dp" >
+
+                        <EditText
+                            android:id="@+id/EStringEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+                </TableLayout>
             </HorizontalScrollView>
+
         </TableRow>
 
         <TableRow
@@ -47,14 +112,14 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="5"
+                android:layout_weight="1"
                 android:text="String" />
 
             <Spinner
                 android:id="@+id/spinner1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3" />
+                android:layout_weight="5" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -95,11 +160,11 @@
             android:layout_height="wrap_content" >
 
             <Button
-                android:id="@+id/button1"
+                android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="@string/start__stop_print" />
 
         </TableRow>
     </TableLayout>

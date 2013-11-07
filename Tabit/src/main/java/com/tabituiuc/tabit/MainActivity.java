@@ -1,5 +1,6 @@
 package com.tabituiuc.tabit;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
+import android.widget.TableLayout;
+
+import com.tabituiuc.tabit.TunerModule;
 
 //test edit
 //test edit
@@ -17,18 +22,42 @@ import android.os.Build;
 public class MainActivity extends ActionBarActivity {
 
     @Override
+
+    private TableLayout scorePrintingXScrollView;
+
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        scorePrintingXScrollView = (TableLayout) findViewById(R.id.scorePrintingXScrollView);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        setButtonOnClickListeners();
     }
 
+    private void setButtonOnClickListeners(){
+        ((Button) findViewById(R.id.startButton)).setOnClickListener(startClicker);
+    }
 
+    private View.OnClickListener startClicker = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View view) {
+           startNewIntent();
+        }
+    }
+
+    private void startNewIntent(){
+        Intent scorePrinting = new Intent(MainActivity.this, ScorePrintingActivity.class);
+        startActivity(scorePrinting);
+        //  TunerModule.accessRecording(); to be fixed
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
