@@ -9,12 +9,12 @@ Calls the Tuners Module ultermately and returns 2D arrays with recursion methods
  */
 public class ShortestDistCalculations {
   
-	public static double max=32767;   // actually is the min total step record
+	public static double max=32767;   // actually is the min box difference sum record
 	public static int all=3;   //all step---can be changed
 	public static int[] best=new int[all];   //shortest path record --3 digit number
 	public static int pmove=3;   //possible box difference
 	public static int[] nowstep=new int[all];    // record the step we are having now
-	public static double[] stepsum=new double[all];   // to record the total step we are having now
+	public static double[] stepsum=new double[all];   // to record the box difference sum we are having now
 	public static int[][] possible=new int[all][4];    //possible string and box position for every step
 	public static int[] frequency=new int [all];    //get data from ken---not using it now
 	public static void find(int gen){
