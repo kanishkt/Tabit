@@ -14,7 +14,8 @@ Calls the Tuners Module continuously and returns 2D arrays with recursion method
     just to parse all the input from Ken and make it into an array of ints(i.e. frequencies), and I will call a constructor for a new object of your class,
     and you will create a method in your class to return the results. And i think you might have to write a constructor method so that it takes parameters
     of the length of array, and parse it into your method. I guess in this way it will be easier instead of using a static method. And we will do the
-    testings in my wrapper class and wrapper methods.
+    testings in my wrapper class and wrapper methods. I changed some of your variable names as well as i found them to be a bit confusing,
+    i also reformatted your codes.
 
  */
 
