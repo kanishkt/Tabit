@@ -16,7 +16,10 @@ Calls the Tuners Module continuously and returns 2D arrays with recursion method
     of the length of array, and parse it into your method. I guess in this way it will be easier instead of using a static method. And we will do the
     testings in my wrapper class and wrapper methods. I changed some of your variable names as well as i found them to be a bit confusing,
     i also reformatted your codes.
-
+  
+  Notes from Susan:
+    I will try to write another version using Object oriented programming so that we can choose a more suitable one for
+    our project. Wrapper method sounds good.
  */
 
 public class ShortestDistCalculations {
@@ -34,6 +37,7 @@ public class ShortestDistCalculations {
         for (int i = 0; i < 4; i++) {
             if (possible[gen][i] == 0)
                 return;            //no more possible position for this step, then return to before step (Forrest's Comment: USE CONTINUE INSTEAD)
+            //Susan: I use return because I will store the possible position consequently, for example if posible[gen][2]==0, then there will be no more possible value in possible[gen][3], so I can return to last step instead of continue, it will save time.
             if (gen == 0) {                                //condition for the first step
                 stepsum[gen] = 0;
                 nowstep[gen] = possible[gen][i];
