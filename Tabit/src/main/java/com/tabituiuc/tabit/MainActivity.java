@@ -13,15 +13,17 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.TableLayout;
+import java.util.*;
+
 
 import com.tabituiuc.tabit.TunerModule;
 
-
 public class MainActivity extends ActionBarActivity {
 
-    @Override
-
     private TableLayout scorePrintingXScrollView;
+    private ArrayList<Integer> rawFreqArray;
+    private TimerTask recordingTask;
+    private Boolean recorderState = false;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -31,13 +33,17 @@ public class MainActivity extends ActionBarActivity {
         scorePrintingXScrollView = (TableLayout) findViewById(R.id.scorePrintingXScrollView);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            /* getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
+                    */
+
         }
 
         setButtonOnClickListeners();
     }
+
+
 
     private void setButtonOnClickListeners(){
         ((Button) findViewById(R.id.startButton)).setOnClickListener(startClicker);
@@ -47,15 +53,54 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View view) {
-      startNewIntent();
+                wrapperFunc();
         }
+    };
+
+
+    private void wrapperFunc(){
+
+        if(recorderState == false)
+        {
+
+
+        rawFreqArray = new ArrayList<Integer>();
+
+
+        Timer t = new Timer();
+        recordingTask = new TimerTask(){int rawFreq = TunerModule.accessRecording();
+            rawFreqArray.add(rawFreq);};
+
+
+        t.scheduleAtFixedRate(recordingTask, 0 ,10);
+
+
+        }
+
+        else {
+
+            returningResults();
+
+        }
+
+        recorderState = !recorderState;
+
     }
 
-    private void startNewIntent(){
-        Intent scorePrinting = new Intent(MainActivity.this, ScorePrintingActivity.class);
-        startActivity(scorePrinting);
-        //  TunerModule.accessRecording(); to be fixed
+    private int[] returningResults(){
+
+        recordingTask.cancel();
+        int[] rawFreqCoverted = new int[rawFreqArray.size()];
+        for(int i = 0; i < rawFreqArray.size(); i++) {
+            if (rawFreqArray.get(i) != null) {
+                rawFreqCoverted[i] = rawFreqArray.get(i);
+            }
+        }
+        ShortestDistCalculations_Forrest resultArray = new ShortestDistCalculations_Forrest(rawFreqCoverted); // Forrest to be removed and discussed
+        return resultArray.results();
+
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         
