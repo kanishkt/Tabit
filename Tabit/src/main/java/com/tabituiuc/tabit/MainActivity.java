@@ -96,7 +96,7 @@ public class MainActivity extends ActionBarActivity {
                 rawFreqCoverted[i] = rawFreqArray.get(i);
             }
         }
-        ShortestDistCalculations_Forrest resultArray = new ShortestDistCalculations_Forrest(rawFreqCoverted); // Forrest to be removed and discussed
+        ShortestDistCalculations_Forrest resultArray = new ShortestDistCalculations_Forrest(rawFreqCoverted); // Forrest to be removed and discussed about actual method
         return resultArray.results();
 
     }
