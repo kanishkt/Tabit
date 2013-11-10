@@ -111,12 +111,45 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void printer(int[] results){
+
         highEString = new TextView[results.length];
         highBString = new TextView[results.length];
         highGString = new TextView[results.length];
         highDString = new TextView[results.length];
         highAString = new TextView[results.length];
         lowEString = new TextView[results.length];
+
+        TextView[][] wrapper = new TextView[][]{highEString, highBString, highGString, highDString, highAString, lowEString};
+
+
+        for (int i = 0; i < results.length; i++)
+        {
+            int encoded = results[i];
+            int string = encoded/100;
+            int fretBox = encoded % 100;
+
+            switch(string) {
+                case 1:
+
+                case 2:
+
+                case 3:
+
+                case 4:
+
+                case 5:
+
+                case 6:
+            }
+
+            for (TextView[] repeats: wrapper)
+            {
+                if(repeats[i] == null)
+                {
+                    repeats[i];
+                }
+            }
+        }
     }
 
     @Override
