@@ -81,6 +81,7 @@ public class ShortestDistCalculations_Forrest extends ShortestDistCalculations {
     }
 
     public int[] getResults(){
+        analyzer();
         return results;
 
     }
