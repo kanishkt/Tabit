@@ -14,8 +14,6 @@ import android.os.Build;
 import android.widget.Button;
 import android.widget.TableLayout;
 import java.util.*;
-
-
 import com.tabituiuc.tabit.TunerModule;
 
 public class MainActivity extends ActionBarActivity {
