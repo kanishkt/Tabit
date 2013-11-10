@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
 import android.widget.TableLayout;
+import android.widget.TextView;
+
 import java.util.*;
 import com.tabituiuc.tabit.TunerModule;
 
@@ -22,6 +24,12 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<Integer> rawFreqArray;
     private TimerTask recordingTask;
     private Boolean recorderState = false;
+    private TextView highEString;
+    private TextView highBString;
+    private TextView highGString;
+    private TextView highDString;
+    private TextView highAString;
+    private TextView lowEString;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -65,8 +73,8 @@ public class MainActivity extends ActionBarActivity {
         rawFreqArray = new ArrayList<Integer>();
 
 
-        Timer t = new Timer();
-        recordingTask = new TimerTask(){int rawFreq = TunerModule.accessRecording();
+            Timer t = new Timer();
+            recordingTask = new TimerTask(){int rawFreq = TunerModule.accessRecording();
             rawFreqArray.add(rawFreq);};
 
 
@@ -95,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
             }
         }
         ShortestDistCalculations_Forrest resultArray = new ShortestDistCalculations_Forrest(rawFreqCoverted); // Forrest to be removed and discussed about actual method
-        return resultArray.results();
+        return resultArray.getResults();
 
     }
 

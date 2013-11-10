@@ -80,7 +80,7 @@ public class ShortestDistCalculations_Forrest extends ShortestDistCalculations {
         throw new RuntimeException("Not implemented");
     }
 
-    public int[] results(){
+    public int[] getResults(){
         return results;
 
     }
