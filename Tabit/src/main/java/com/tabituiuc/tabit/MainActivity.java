@@ -24,12 +24,12 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<Integer> rawFreqArray;
     private TimerTask recordingTask;
     private Boolean recorderState = false;
-    private TextView highEString;
-    private TextView highBString;
-    private TextView highGString;
-    private TextView highDString;
-    private TextView highAString;
-    private TextView lowEString;
+    private TextView[] highEString;
+    private TextView[] highBString;
+    private TextView[] highGString;
+    private TextView[] highDString;
+    private TextView[] highAString;
+    private TextView[] lowEString;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -75,17 +75,20 @@ public class MainActivity extends ActionBarActivity {
 
             Timer t = new Timer();
             recordingTask = new TimerTask(){int rawFreq = TunerModule.accessRecording();
-            rawFreqArray.add(rawFreq);};
+            rawFreqArray.add(rawFreq);
+
+            };
 
 
         t.scheduleAtFixedRate(recordingTask, 0 ,10);
+
 
 
         }
 
         else {
 
-            returningResults();
+            printer(returningResults());
 
         }
 
@@ -105,6 +108,15 @@ public class MainActivity extends ActionBarActivity {
         ShortestDistCalculations_Forrest resultArray = new ShortestDistCalculations_Forrest(rawFreqCoverted); // Forrest to be removed and discussed about actual method
         return resultArray.getResults();
 
+    }
+
+    private void printer(int[] results){
+        highEString = new TextView[results.length];
+        highBString = new TextView[results.length];
+        highGString = new TextView[results.length];
+        highDString = new TextView[results.length];
+        highAString = new TextView[results.length];
+        lowEString = new TextView[results.length];
     }
 
     @Override
