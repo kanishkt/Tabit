@@ -15,13 +15,17 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-import java.util.*;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.ArrayList;
+
 import com.tabituiuc.tabit.TunerModule;
 
 public class MainActivity extends ActionBarActivity {
 
     private TableLayout scorePrintingXScrollView;
-    private ArrayList<Integer> rawFreqArray;
+    private List<Integer> rawFreqArray;
     private TimerTask recordingTask;
     private Boolean recorderState = false;
     private TextView[] highEString;
@@ -74,8 +78,13 @@ public class MainActivity extends ActionBarActivity {
 
 
             Timer t = new Timer();
-            recordingTask = new TimerTask(){int rawFreq = TunerModule.accessRecording();
+            recordingTask = new TimerTask(){
+
+            public void run(){
+                int raw = TunerModule.accessRecording();
+            Integer rawFreq = new Integer(raw);
             rawFreqArray.add(rawFreq);
+            }
 
             };
 
