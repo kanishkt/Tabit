@@ -22,7 +22,8 @@ public class ShortestDistCalculations_Forrest extends ShortestDistCalculations {
     private static final double MAX_DIFF = 32767;   // this holds the maximum allowable differnce in frequency
     private static final int BOX_DIFF = 3;   //maximum allowed difference in box
     private int[] possible = new int[6];    //possible string and box position for every step, like something like 606 represents 6th string 6th box, Instead of using arrays, since this saves time.
-    private int[] frequencies = new int[numSteps]; // Input frequency from Forrest's Main Activity method, i will call a constructor to initialize such method.
+    private int[] frequencies = new int[numSteps];// Input frequency from Forrest's Main Activity method, i will call a constructor to initialize such method.
+    private int[] results = new int[numSteps];
     private int numSteps;   //number of notes in the music
     private int previousStep;  // to hold the previous step
 
@@ -64,15 +65,24 @@ public class ShortestDistCalculations_Forrest extends ShortestDistCalculations {
         // finds the maximum frequency in the array recursively
         throw new RuntimeException("Not implemented");
     }
+
     private int findStepsForFreq(int[] src, int startElement, int finishElement){
         // finds steps required to achieve the steppings we need
         /* Basically what i am trying to do here is to divide to entire music into various parts, and find the maximum and minimum in between, and then since the main target we need is to know the difference between max and min within a small segment of music,
         since if this segment of music contains a large leap, we want to jump the most steps possible to achieve the change in music. Or I am thinking is this actually needed? cuz all we have to do is to figure out the lowest and highest notes.
          */
+
+        throw new RuntimeException("Not implemented");
+    }
+
+    private void analyzer(){
+        // this method is the main wrapper class that analyzes all frequencies input and then store them into results
+        throw new RuntimeException("Not implemented");
     }
 
     public int[] results(){
         return results;
+
     }
 /* your methods:
     public void find(int gen) {
