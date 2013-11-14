@@ -12,7 +12,9 @@ Calls the Tuners Module continuously and returns 2D arrays with recursion method
     Basically what my code does is that i find analyze the frequencies and find all the box and string combinations possible of the current note,
     then return the closest option, recording this combination and find the next frequency, and making use of the combination i recorded to
     analyze the next possible options. Then finally returning an array. I think we better have a meeting on monday to discuss further about this.
-
+   
+   Notes from Susan:
+    I didn't test it because I need data to implement possibleSteps() method. But check to see if I got your idea right.
  */
 
 public class ShortestDistCalculations_Forrest {
