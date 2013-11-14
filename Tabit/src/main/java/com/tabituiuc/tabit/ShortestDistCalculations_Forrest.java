@@ -15,69 +15,118 @@ Calls the Tuners Module continuously and returns 2D arrays with recursion method
 
  */
 
-public class ShortestDistCalculations_Forrest extends ShortestDistCalculations {
-
+public class ShortestDistCalculations_Forrest {
 
 
     private static final double MAX_DIFF = 32767;   // this holds the maximum allowable differnce in frequency
-    private static final int BOX_DIFF = 3;   //maximum allowed difference in box
-    private int[] possible = new int[6];    //possible string and box position for every step, like something like 606 represents 6th string 6th box, Instead of using arrays, since this saves time.
-    private int[] frequencies = new int[numSteps];// Input frequency from Forrest's Main Activity method, i will call a constructor to initialize such method.
-    private int[] results = new int[numSteps];
+    private static final int BOX_DIFF = 4;   //maximum allowed difference in box
+    private int[] possible = new int[4];    //possible string and box position for every step, like something like 606 represents 6th string 6th box, Instead of using arrays, since this saves time.
+    private int[] frequencies;// Input frequency from Forrest's Main Activity method, i will call a constructor to initialize such method.
+    private int[] results;
     private int numSteps;   //number of notes in the music
     private int previousStep;  // to hold the previous step
-
+    private int beginString;
+    private int beginBox;
+    
     public ShortestDistCalculations_Forrest(int[] input) // Constructor
     {
-        this.numSteps = input.length - 1;
+        this.numSteps = input.length;
         this.frequencies = input;
+        results=new int[numSteps];
     }
 
-    private int[] possibleSteps(int frequency){
+    private int[] possibleSteps(int indexoffrequencies){
 
-        //return all possible frequencies for a note to be played.
-        throw new RuntimeException("Not implemented");
+        //return all possible position for a frequency to be played.
+        throw new RuntimeException("Need real data to implement this method-Susan");
 
     }
 
     private int nextStep(int[] possibleSteps, int previousStep) {
 
             // implement methods that follows the criteria for changing strings.
-
         throw new RuntimeException("Not implemented");
 
     }
 
-    private int findMin(int[] src, int numElementsLeft){
-
+    private int findMin(){
+        int indexOfMin=0;
+        int i=1;
+        while(i<4 && possible[i]!=0){
+        	if(Math.abs(possible[i]%100-beginBox)<Math.abs(possible[indexOfMin]%100-beginBox))
+        		indexOfMin=i;
+        	i++;
+        }
+        return indexOfMin;
         // finds the minimum distance.
-        throw new RuntimeException("Not implemented");
+        //throw new RuntimeException("Not implemented");
     }
 
 
-    private int findMinFreq(int[] src, int numElementsLeft){
+    private int findMinFreq(){
         // finds the minimum frequency in the array recursively
-        throw new RuntimeException("Not implemented");
+        //throw new RuntimeException("Not implemented");
+        int min=0;
+        for(int i=0;i<numSteps;i++)
+        	if(frequencies[i]<frequencies[min])
+        		min=i;
+        return min;
     }
 
 
-    private int findMaxFreq(int[] src, int numElementsLeft){
+    private int findMaxFreq(){
         // finds the maximum frequency in the array recursively
-        throw new RuntimeException("Not implemented");
+        int max=0;
+        for(int i=0;i<numSteps;i++)
+        	if(frequencies[i]>frequencies[max])
+        		max=i;
+        return max;
     }
-
-    private int findStepsForFreq(int[] src, int startElement, int finishElement){
-        // finds steps required to achieve the steppings we need
-        /* Basically what i am trying to do here is to divide to entire music into various parts, and find the maximum and minimum in between, and then since the main target we need is to know the difference between max and min within a small segment of music,
-        since if this segment of music contains a large leap, we want to jump the most steps possible to achieve the change in music. Or I am thinking is this actually needed? cuz all we have to do is to figure out the lowest and highest notes.
-         */
-
-        throw new RuntimeException("Not implemented");
+    private void set(int indexOfPosition,int indexOfnote){
+    	results[indexOfnote]=possible[indexOfPosition];
     }
-
+    private void switchString(int indexOfPosition){
+    	beginString=possible[indexOfPosition]/100;
+    	beginBox=possible[indexOfPosition]%100;
+    }
+    private int haveGoodPlaceOnSameString( int indexOfNote){
+    	int i=0;
+    	while(i<4 && possible[i]!=0){
+    		if(possible[i]/100==beginString  &&(possible[i]%100==0 || Math.abs(possible[i]%100-beginBox)<=BOX_DIFF))
+    			if(results[indexOfNote-1]%100==0 || Math.abs(results[indexOfNote-1]%100-possible[i]%100)<=BOX_DIFF)
+    		     	return i;
+            i++;
+    	}
+    	return -1;
+    }
     private void analyzer(){
         // this method is the main wrapper class that analyzes all frequencies input and then store them into results
-        throw new RuntimeException("Not implemented");
+        //throw new RuntimeException("Not implemented");
+        int maxindex=findMaxFreq();
+        int minindex=findMinFreq();
+        possible=possibleSteps(maxindex);
+        beginBox=0;
+        int maxbox=findMin();
+        possible=possibleSteps(minindex);
+        beginBox=14;
+        int minbox=findMin();
+        beginBox=(minbox+maxbox)/2;
+        possible=possibleSteps(frequencies[0]);    //the first note;
+        int index=findMin();
+        set(index,0);
+        switchString(index);
+        for(int i=1;i<numSteps;i++){
+        	possible=possibleSteps(frequencies[i]);
+        	int have=haveGoodPlaceOnSameString(i);
+        	if(have!=-1)
+        		set(have,i);
+        	else{
+        		int indexOfMin=findMin();
+        		set(indexOfMin,i);
+        		switchString(indexOfMin);
+        	}
+        		
+        }
     }
 
     public int[] getResults(){
@@ -128,8 +177,12 @@ public class ShortestDistCalculations_Forrest extends ShortestDistCalculations {
 
     // testing methods following
 
-    public static void main(String[] args) {
-    // To be implemented
-    }
-}
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
 
+	}
+
+}
