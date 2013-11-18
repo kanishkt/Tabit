@@ -24,7 +24,7 @@ Calls the Tuners Module continuously and returns 2D arrays with recursion method
 
 public class ShortestDistCalculations {
 
-    public static final double MAX_DIFF = 32767;   // actually is the min box difference sum record (Forrest: USE a different naming system for constant variables and final for fixed variables)
+    public static double MAX_DIFF = 32767;   // actually is the min box difference sum record (Forrest: USE a different naming system for constant variables and final for fixed variables)
     public static int numSteps = 3;   //all step---can be changed
     public static int[] best = new int[numSteps];   //shortest path record --3 digit number
     public static int pmove = 3;   //possible box difference

@@ -13,7 +13,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="22dp" >
+        android:stretchColumns="3"
+        android:id="@+id/tableLayout">
 
         <TableRow
             android:id="@+id/tableRow1"
@@ -22,10 +23,12 @@
 
             <HorizontalScrollView
                 android:id="@+id/scrollContainer"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="250dp"
-                android:layout_span="2"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:layout_weight="1"
+                android:layout_column="0"
+                android:fillViewport="false">
 
                 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="match_parent"
@@ -33,21 +36,20 @@
                     android:id="@+id/scorePrintingXScrollView">
 
                     <TableRow
-                        android:id="@+id/tableRow"
+                        android:id="@+id/tableRowhE"
                         android:layout_width="wrap_content"
                         android:layout_height="5dp" >
 
                         <EditText
                             android:id="@+id/highEStringEditText"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="dsfsdfsfsdffffffffffffffffffffffffffffffffffffffff" />
+                            android:layout_height="wrap_content" />
                     </TableRow>
 
                     <TableRow
-                        android:id="@+id/tableRow6"
                         android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
+                        android:layout_height="5dp"
+                        android:id="@+id/tableRowB">
 
                         <EditText
                             android:id="@+id/BStringEditText"
@@ -56,31 +58,32 @@
                     </TableRow>
 
                     <TableRow
-                        android:id="@+id/tableRow7"
                         android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
+                        android:layout_height="5dp"
+                        android:id="@+id/tableRowG" >
 
                         <EditText
-                            android:id="@+id/GStringEditText"
+                            android:id="@+id/editText2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </TableRow>
 
                     <TableRow
-                        android:id="@+id/tableRow8"
                         android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
+                        android:layout_height="5dp"
+                        android:id="@+id/tableRowD" >
 
                         <EditText
-                            android:id="@+id/DStringEditText"
+                            android:id="@+id/editText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
+
                     </TableRow>
 
                     <TableRow
-                        android:id="@+id/tableRow7"
                         android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
+                        android:layout_height="5dp"
+                        android:id="@+id/tableRowA">
 
                         <EditText
                             android:id="@+id/AStringEditText"
@@ -89,9 +92,9 @@
                     </TableRow>
 
                     <TableRow
-                        android:id="@+id/tableRow8"
                         android:layout_width="wrap_content"
-                        android:layout_height="5dp" >
+                        android:layout_height="5dp"
+                        android:id="@+id/tableRowlE">
 
                         <EditText
                             android:id="@+id/EStringEditText"
@@ -104,69 +107,71 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="String" />
-
-            <Spinner
-                android:id="@+id/spinner1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5" />
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Fret" />
-
-            <EditText
-                android:id="@+id/editText7"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                android:ems="10" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:text="Rhythm" />
-
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow9"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="fill_parent"
+            android:id="@+id/tableRow2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rhythm_button_text"
+                android:id="@+id/rhythmTextView"
+                android:layout_margin="0dp"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rhythmSelector"
+                android:clickable="false"
+                android:layout_span="2"
+                android:layout_weight="1" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/tableRow3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tempo_button_text"
+                android:id="@+id/tempoLabel"
+                android:layout_margin="0dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/initial_tempo"
+                android:textSize="25dp"
+                android:id="@+id/tempoText"
+                android:layout_weight="2" />
+
+            <SeekBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tempoBar"
+                android:focusableInTouchMode="true"
+                android:layout_weight="60" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/tableRow4">
 
             <Button
-                android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/start_stop_button_text"
+                android:id="@+id/startButton"
                 android:layout_weight="1"
-                android:text="@string/start__stop_print" />
+                android:layout_column="0" />
 
         </TableRow>
+
     </TableLayout>
 
 </RelativeLayout>
