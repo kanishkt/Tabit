@@ -44,95 +44,92 @@ public class ShortestDistCalculations_Forrest {
 
     }
 
-    private int nextStep(int previousStep) {
 
-        // implement methods that follows the criteria for changing strings.
-        throw new RuntimeException("Not implemented");
-
-    }
-
-    private int findMin() {
-        int indexOfMin = 0;
-        int i = 1;
-        while (i < 4 && possible[i] != 0) {
-            if (Math.abs(possible[i] % 100 - beginBox) < Math.abs(possible[indexOfMin] % 100 - beginBox))
-                indexOfMin = i;
-            i++;
+    private int findMin(){
+        int indexOfMin=0;
+        int i=1;
+        while(i<4 && possible[i]!=0){
+        	if(possible[i]%100==0) return i;     //If we have a possible position that allow us to push string without pressing box then we consider that as the best choice--Is that right?
+        	if(Math.abs(possible[i]%100-beginBox)<Math.abs(possible[indexOfMin]%100-beginBox))
+        		indexOfMin=i;
+        	i++;
         }
         return indexOfMin;
         // finds the minimum distance.
     }
 
 
-    private int findMinFreq() {
+    private int findMinFreq(){
         // finds the minimum frequency in the array recursively
-        //throw new RuntimeException("Not implemented");
-        int min = 0;
-        for (int i = 0; i < numSteps; i++)
-            if (frequencies[i] < frequencies[min])
-                min = i;
+        int min=0;
+        for(int i=0;i<numSteps;i++)
+        	if(frequencies[i]<frequencies[min])
+        		min=i;
         return min;
     }
 
 
-    private int findMaxFreq() {
+    private int findMaxFreq(){
         // finds the maximum frequency in the array recursively
-        int max = 0;
-        for (int i = 0; i < numSteps; i++)
-            if (frequencies[i] > frequencies[max])
-                max = i;
+        int max=0;
+        for(int i=0;i<numSteps;i++)
+        	if(frequencies[i]>frequencies[max])
+        		max=i;
         return max;
     }
-
-    private void set(int indexOfPosition, int indexOfnote) {
-        results[indexOfnote] = possible[indexOfPosition];
+    private void set(int indexOfPosition,int indexOfnote){
+    	results[indexOfnote]=possible[indexOfPosition];
     }
-
-    private void switchString(int indexOfPosition) {
-        beginString = possible[indexOfPosition] / 100;
-        beginBox = possible[indexOfPosition] % 100;
+    private void switchString(int indexOfPosition){
+    	beginString=possible[indexOfPosition]/100;
+    	int temp=possible[indexOfPosition]%100;
+    	if(temp!=0) beginBox=temp;      // if this note is push string without pressing box, then we change string but don't change beginbox--Is that correct?
     }
-
-    private int haveGoodPlaceOnSameString(int indexOfNote) {
-        int i = 0;
-        while (i < 4 && possible[i] != 0) {
-            if (possible[i] / 100 == beginString && (possible[i] % 100 == 0 || Math.abs(possible[i] % 100 - beginBox) <= BOX_DIFF))
-                if (results[indexOfNote - 1] % 100 == 0 || Math.abs(results[indexOfNote - 1] % 100 - possible[i] % 100) <= BOX_DIFF)
-                    return i;
+    private int haveGoodPlaceOnSameString( int indexOfNote){
+    	int i=0;
+    	while(i<4 && possible[i]!=0){
+    		if(possible[i]/100==beginString  &&(possible[i]%100==0 || Math.abs(possible[i]%100-beginBox)<=BOX_DIFF))
+    			if(results[indexOfNote-1]%100==0 || Math.abs(results[indexOfNote-1]%100-possible[i]%100)<=BOX_DIFF)
+    		     	return i;
             i++;
-        }
-        return -1;
+    	}
+    	return -1;
     }
-
-    private void analyzer() {
-        // this method is the main wrapper class that analyzes all frequencies input and then store them into results
-        //throw new RuntimeException("Not implemented");
-        int maxindex = findMaxFreq();
-        int minindex = findMinFreq();
-        possible = possibleSteps(maxindex);
-        beginBox = 0;
-        int maxbox = findMin();
-        possible = possibleSteps(minindex);
-        beginBox = 14;
-        int minbox = findMin();
-        beginBox = (minbox + maxbox) / 2;
-        possible = possibleSteps(frequencies[0]);    //the first note;
-        int index = findMin();
-        set(index, 0);
+    private void firstnote(){
+        int maxindex=findMaxFreq();
+        int minindex=findMinFreq();
+        possible=possibleSteps(maxindex);
+        beginBox=0;
+        int maxbox=findMin();
+        possible=possibleSteps(minindex);
+        beginBox=14;
+        int minbox=findMin();
+        beginBox=(minbox+maxbox)/2;
+        possible=possibleSteps(frequencies[0]);    //the first note;
+        int index=findMin();
+        set(index,0);
         switchString(index);
-        for (int i = 1; i < numSteps; i++) {
-            possible = possibleSteps(frequencies[i]);
-            int have = haveGoodPlaceOnSameString(i);
-            if (have != -1)
-                set(have, i);
-            else {
-                int indexOfMin = findMin();
-                set(indexOfMin, i);
-                switchString(indexOfMin);
-            }
+    }
+    public void nextnote(int i){
+    	possible=possibleSteps(frequencies[i]);
+    	int have=haveGoodPlaceOnSameString(i);
+    	if(have!=-1)
+    		set(have,i);
+    	else{
+    		int indexOfMin=findMin();
+    		set(indexOfMin,i);
+    		switchString(indexOfMin);
+    	}
+    }
+    private void analyzer(){
+        // this method is the main wrapper class that analyzes all frequencies input and then store them into results
 
+        firstnote();
+        for(int i=1;i<numSteps;i++){
+             nextnote(i);
         }
     }
+
 
     public int[] getResults() {
         analyzer();
