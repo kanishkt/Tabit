@@ -53,17 +53,18 @@ public class ShortestDistCalculations {
 
 
         int[] results = new int[]{EString, AString, DString, GString, BString, highEString};
-
+        int j=0;
         for (int i = 0; i < results.length; i++)
         {
             if (results[i] < 0 || results[i] > 16) // not an available option
             {
-                results[i] = 999;
+                results[i] =0;
 
             }
 
             else{
-                results[i] += (i+1)*100;
+                results[j] =results[i]+ (i+1)*100;
+                j++;
             }
         }
 
