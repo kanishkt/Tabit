@@ -64,7 +64,8 @@ public class ShortestDistCalculations {
 
             else{
                 results[j] =results[i]+ (i+1)*100;
-                results[i]=0;
+                if(i>j)
+                    results[i]=0;
                 j++;
             }
         }
