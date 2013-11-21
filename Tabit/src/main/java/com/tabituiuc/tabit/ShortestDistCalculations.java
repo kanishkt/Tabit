@@ -9,92 +9,183 @@ Calls the Tuners Module continuously and returns 2D arrays with recursion method
  */
 
 /* Notes from Forrest:
-    I guess it is better if you make of Object oriented programming (and apparently from this it shows that you are from a C background haha).
-    And make each array that you are going to return to be an object, and work with the object itself. Moreover, i guess i will create a wrapper class,
-    just to parse all the input from Ken and make it into an array of ints(i.e. frequencies), and I will call a constructor for a new object of your class,
-    and you will create a method in your class to return the results. And i think you might have to write a constructor method so that it takes parameters
-    of the length of array, and parse it into your method. I guess in this way it will be easier instead of using a static method. And we will do the
-    testings in my wrapper class and wrapper methods. I changed some of your variable names as well as i found them to be a bit confusing,
-    i also reformatted your codes.
-  
-  Notes from Susan:
-    I will try to write another version using Object oriented programming so that we can choose a more suitable one for
-    our project. Wrapper method sounds good.
+    Basically what my code does is that i find analyze the frequencies and find all the box and string combinations possible of the current note,
+    then return the closest option, recording this combination and find the next frequency, and making use of the combination i recorded to
+    analyze the next possible options. Then finally returning an array. I think we better have a meeting on monday to discuss further about this.
+   
+   Notes from Susan:
+    I didn't test it because I need data to implement possibleSteps() method. But check to see if I got your idea right.
  */
 
 public class ShortestDistCalculations {
 
-    public static double MAX_DIFF = 32767;   // actually is the min box difference sum record (Forrest: USE a different naming system for constant variables and final for fixed variables)
-    public static int numSteps = 3;   //all step---can be changed
-    public static int[] best = new int[numSteps];   //shortest path record --3 digit number
-    public static int pmove = 3;   //possible box difference
-    public static int[] nowstep = new int[numSteps];    // record the step we are having now
-    public static double[] stepsum = new double[numSteps];   // to record the box difference sum we are having now
-    public static int[][] possible = new int[numSteps][4];    //possible string and box position for every step
-    public static int[] frequency = new int[numSteps];    //get data from ken---not using it now
 
-    public static void find(int gen) {
-        for (int i = 0; i < 4; i++) {
-            if (possible[gen][i] == 0)
-                return;            //no more possible position for this step, then return to before step (Forrest's Comment: USE CONTINUE INSTEAD)
-            //Susan: I use return because I will store the possible position consequently, for example if posible[gen][2]==0, then there will be no more possible value in possible[gen][3], so I can return to last step instead of continue, it will save time.
-            if (gen == 0) {                                //condition for the first step
-                stepsum[gen] = 0;
-                nowstep[gen] = possible[gen][i];
-            } else {                                    //condition for other steps
-                int string = possible[gen][i] / 100;
-                int box = possible[gen][i] % 100;
-                int pre = 1;
-                while (nowstep[gen - pre] % 100 == 0) {
-                    pre++;
-                }
-                int prestring = nowstep[gen - pre] / 100;
-                int prebox = nowstep[gen - pre] % 100;
-                double diff = Math.abs(prebox - box) + 0.1 * Math.abs(prestring - string);
-                if (box == 0) {                                                 //condtion for pushing strings without pressing box
-                    nowstep[gen] = possible[gen][i];
-                    stepsum[gen] = 0 + stepsum[gen - 1];
-                } else if (diff <= pmove) {                                 // when the change of boxes is within the range allowed
-                    stepsum[gen] = diff + stepsum[gen - 1];
-                    nowstep[gen] = possible[gen][i];
-                } else continue;
+    //  private static final double MAX_DIFF = 32767;   // this holds the maximum allowable differnce in frequency
+    private static final int BOX_DIFF = 4;   //maximum allowed difference in box
+    private int[] possible = new int[6];    //possible string and box position for every step, like something like 606 represents 6th string 6th box, Instead of using arrays, since this saves time.
+    private int[] frequencies;// Input frequency from Forrest's Main Activity method, i will call a constructor to initialize such method.
+    private int[] results;
+    private int numSteps;   //number of notes in the music
+   //  private int previousStep;  // to hold the previous step
+    private int beginString; // that records the previous string
+    private int beginBox; // that records the previous box
+    private static final int A_FREQ = 440;
+    private static final double TONE_CONST = Math.pow(2, 1/12);
+
+    public ShortestDistCalculations(int[] input) // Constructor
+    {
+        this.numSteps = input.length;
+        this.frequencies = input;
+        results = new int[numSteps];
+    }
+
+    private int[] possibleSteps(int indexoffrequencies) {
+        int EString, AString, DString, GString, BString, highEString;
+
+        int semiTonesFromLowE;
+        semiTonesFromLowE = (int)Math.round((Math.log(indexoffrequencies/A_FREQ)/Math.log(TONE_CONST))) + 17;
+        EString = semiTonesFromLowE;
+        AString = semiTonesFromLowE - 5;
+        DString = semiTonesFromLowE - 10;
+        GString = semiTonesFromLowE - 15;
+        BString = semiTonesFromLowE - 19;
+        highEString = semiTonesFromLowE - 24;
+
+
+        int[] results = new int[]{EString, AString, DString, GString, BString, highEString};
+
+        for (int i = 0; i < results.length; i++)
+        {
+            if (results[i] < 0 || results[i] > 16) // not an available option
+            {
+                results[i] = 999;
+
             }
-            if (gen == numSteps - 1) {             //reached the last step
-                if (stepsum[gen] < MAX_DIFF) {
-                    MAX_DIFF = stepsum[gen];
-                    for (int j = 0; j < numSteps; j++)
-                        best[j] = nowstep[j];
 
-                }
-            } else {                //go to next step
-                find(gen + 1);
+            else{
+                results[i] += (i+1)*100;
             }
         }
 
+        return results;
+
+        //return all possible position for a frequency to be played.
+
     }
 
-    // testing methods following
 
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
-        for (int i = 0; i < numSteps; i++) {
-            for (int j = 0; j < 4; j++)
-                possible[i][j] = 0;
+    private int findMin(){
+        int indexOfMin = 0;
+        int i = 0;
+        while(i < 6 && possible[i] != 0 && possible[i] != 999){
+
+        	if(Math.abs(possible[i]%100-beginBox)<Math.abs(possible[indexOfMin]%100-beginBox))
+        		indexOfMin=i;
+        	i++;
         }
-        possible[0][0] = 103;
-        possible[0][1] = 201;
-        possible[0][2] = 402;
-        possible[1][0] = 102;
-        possible[1][1] = 305;
-        possible[1][2] = 407;
-        possible[2][0] = 104;
-        possible[2][1] = 306;
-        possible[2][2] = 403;
-        find(0);
-        System.out.println(MAX_DIFF);
-        for (int i = 0; i < numSteps; i++)
-            System.out.print(best[i] + " ");
+        return indexOfMin;
+        // finds the minimum distance.
+        // returns the INDEX of the shortest distance in possible array
     }
+
+
+    private int findMinFreq(){
+
+        int min=0;
+        for(int i=0;i<numSteps;i++)
+        	if(frequencies[i]<frequencies[min])
+        		min=i;
+        return min;
+    }
+
+
+    private int findMaxFreq(){
+        // finds the maximum frequency in the array recursively
+        int max=0;
+        for(int i=0;i<numSteps;i++)
+        	if(frequencies[i]>frequencies[max])
+        		max=i;
+        return max;
+    }
+
+    private void set(int indexOfPosition,int indexOfnote){
+    	results[indexOfnote]=possible[indexOfPosition];
+    }
+    private void switchString(int indexOfPosition){
+    	beginString = possible[indexOfPosition]/100;
+    	int temp = possible[indexOfPosition]%100;
+    	if(temp!=0) beginBox = temp;      // if this note is push string without pressing box, then we change string but don't change beginbox--Is that correct?
+    }
+
+    private int haveGoodPlaceOnSameString( int indexOfNote){
+    	int i=0;
+    	while(i<6 && possible[i]!=0){
+    		if(possible[i]/100==beginString  &&(Math.abs(possible[i]%100-beginBox)<=BOX_DIFF))
+    			// if(results[indexOfNote-1]%100==0 || Math.abs(results[indexOfNote-1]%100-possible[i]%100)<=BOX_DIFF)
+    		     	return i;
+            i++;
+    	}
+    	return -1;
+    }
+    private void firstnote(){
+        int maxindex=findMaxFreq();
+        int minindex=findMinFreq();
+
+        possible=possibleSteps(maxindex);
+
+        beginBox=0;
+        int maxbox=findMin();
+
+        possible=possibleSteps(minindex);
+        beginBox=14;
+        int minbox=findMin();
+
+        beginBox=(minbox+maxbox)/2;
+
+        possible=possibleSteps(frequencies[0]);    //the first note;
+        int index=findMin();
+
+        set(index,0);
+        switchString(index);
+
+    }
+
+    public void nextnote(int i){
+    	possible=possibleSteps(frequencies[i]);
+    	int have = haveGoodPlaceOnSameString(i);
+    	if(have!=-1)
+    		set(have,i);
+    	else{
+    		int indexOfMin=findMin();
+    		set(indexOfMin,i);
+    		switchString(indexOfMin);
+    	}
+    }
+    private void analyzer(){
+        // this method is the main wrapper class that analyzes all frequencies input and then store them into results
+
+        firstnote();
+        for(int i=1;i<numSteps;i++){
+             nextnote(i);
+        }
+    }
+
+
+    public int[] getResults() {
+        analyzer();
+        return results;
+
+    }
+
+    public static void main(String[] args){
+
+        ShortestDistCalculations test = new ShortestDistCalculations(new int[] {440, 440, 440, 440});
+        int[] result = test.getResults();
+        int firstresult = result[3];
+        System.out.println(firstresult);
+        // do nothing
+
+    }
+
 
 }
-
