@@ -21,7 +21,7 @@ public class ShortestDistCalculations {
 
 
     //  private static final double MAX_DIFF = 32767;   // this holds the maximum allowable differnce in frequency
-    private static final int BOX_DIFF = 4;   //maximum allowed difference in box
+    private static final int BOX_DIFF = 2;   //maximum allowed difference in box
     private int[] possible = new int[6];    //possible string and box position for every step, like something like 606 represents 6th string 6th box, Instead of using arrays, since this saves time.
     private int[] frequencies;// Input frequency from Forrest's Main Activity method, i will call a constructor to initialize such method.
     private int[] results;
