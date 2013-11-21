@@ -64,6 +64,7 @@ public class ShortestDistCalculations {
 
             else{
                 results[j] =results[i]+ (i+1)*100;
+                results[i]=0;
                 j++;
             }
         }
@@ -132,14 +133,14 @@ public class ShortestDistCalculations {
         int maxindex=findMaxFreq();
         int minindex=findMinFreq();
 
-        possible=possibleSteps(maxindex);
+        possible=possibleSteps(frequencies[maxindex]);
 
         beginBox=0;
-        int maxbox=findMin();
+        int maxbox=possible[findMin()]%100;
 
-        possible=possibleSteps(minindex);
+        possible=possibleSteps(frequencies[minindex]);
         beginBox=14;
-        int minbox=findMin();
+        int minbox=possible[findMin()]%100;
 
         beginBox=(minbox+maxbox)/2;
 
