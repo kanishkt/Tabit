@@ -30,7 +30,7 @@ public class ShortestDistCalculations {
     private int beginString; // that records the previous string
     private int beginBox; // that records the previous box
     private static final int A_FREQ = 440;
-    private static final double TONE_CONST = Math.pow(2, 1/12);
+    private static final double TONE_CONST = Math.pow(2, 1.0/12);
 
     public ShortestDistCalculations(int[] input) // Constructor
     {
@@ -39,7 +39,7 @@ public class ShortestDistCalculations {
         results = new int[numSteps];
     }
 
-    private int[] possibleSteps(int indexoffrequencies) {
+    private int[] possibleSteps(double indexoffrequencies) {
         int EString, AString, DString, GString, BString, highEString;
 
         int semiTonesFromLowE;
@@ -116,8 +116,8 @@ public class ShortestDistCalculations {
     }
     private void switchString(int indexOfPosition){
     	beginString = possible[indexOfPosition]/100;
-    	int temp = possible[indexOfPosition]%100;
-    	if(temp!=0) beginBox = temp;      // if this note is push string without pressing box, then we change string but don't change beginbox--Is that correct?
+    	beginBox = possible[indexOfPosition]%100;
+    	//if(temp!=0) beginBox = temp;      // if this note is push string without pressing box, then we change string but don't change beginbox--Is that correct?
     }
 
     private int haveGoodPlaceOnSameString( int indexOfNote){
@@ -182,10 +182,12 @@ public class ShortestDistCalculations {
 
     public static void main(String[] args){
 
-        ShortestDistCalculations test = new ShortestDistCalculations(new int[] {440, 440, 440, 440});
+        ShortestDistCalculations test = new ShortestDistCalculations(new int[] {494, 523, 494, 440});
         int[] result = test.getResults();
-        int firstresult = result[3];
-        System.out.println(firstresult);
+        int[] firstresult = result;
+        for(int i=0;i<4;i++){
+          System.out.println(firstresult[i]);
+        }
         // do nothing
 
     }
