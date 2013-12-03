@@ -96,7 +96,7 @@ public class ShortestDistCalculations {
 
         int min=0;
         for(int i=0;i<numSteps;i++)
-        	if(frequencies[i]<frequencies[min])
+        	if(frequencies[i]<frequencies[min] && frequencies[i] != 800)
         		min=i;
         return min;
     }
@@ -106,13 +106,16 @@ public class ShortestDistCalculations {
         // finds the maximum frequency in the array recursively
         int max=0;
         for(int i=0;i<numSteps;i++)
-        	if(frequencies[i]>frequencies[max])
+        	if(frequencies[i]>frequencies[max] && frequencies[i] != 800)
         		max=i;
         return max;
     }
 
-    private void set(int indexOfPosition,int indexOfnote){
-    	results[indexOfnote]=possible[indexOfPosition];
+    private void setEmpty(int indexOfNote){
+        results[indexOfNote] = 800;
+    }
+    private void set(int indexOfPosition,int indexOfNote){
+    	results[indexOfNote]=possible[indexOfPosition];
     }
     private void switchString(int indexOfPosition){
     	beginString = possible[indexOfPosition]/100;
@@ -130,7 +133,8 @@ public class ShortestDistCalculations {
     	}
     	return -1;
     }
-    private void firstnote(){
+    private void firstnote(int i){
+
         int maxindex=findMaxFreq();
         int minindex=findMinFreq();
 
@@ -145,10 +149,10 @@ public class ShortestDistCalculations {
 
         beginBox=(minbox+maxbox)/2;
 
-        possible=possibleSteps(frequencies[0]);    //the first note;
+        possible=possibleSteps(frequencies[i]);    //the first note;
         int index=findMin();
 
-        set(index,0);
+        set(index,i);
         switchString(index);
 
     }
@@ -165,10 +169,15 @@ public class ShortestDistCalculations {
     	}
     }
     private void analyzer(){
+        int j = 0;
         // this method is the main wrapper class that analyzes all frequencies input and then store them into results
+        while(frequencies[j] == 800){
+            setEmpty(j);
+            j++;
+        }
 
-        firstnote();
-        for(int i=1;i<numSteps;i++){
+        firstnote(j);
+        for(int i=j+1;i<numSteps;i++){
              nextnote(i);
         }
     }
@@ -182,12 +191,20 @@ public class ShortestDistCalculations {
 
     public static void main(String[] args){
 
+
+
+
+
         ShortestDistCalculations test = new ShortestDistCalculations(new int[] {494, 523, 494, 440});
         int[] result = test.getResults();
         int[] firstresult = result;
         for(int i=0;i<4;i++){
           System.out.println(firstresult[i]);
+
         }
+
+
+
         // do nothing
 
     }

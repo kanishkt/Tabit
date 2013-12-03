@@ -1,8 +1,6 @@
 package com.tabituiuc.tabit;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,9 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -26,14 +24,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.ArrayList;
 
-import com.tabituiuc.tabit.TunerModule;
-
 public class MainActivity extends ActionBarActivity {
 
-    private TableLayout scorePrintingXScrollView;
+    // private TableLayout scorePrintingXScrollView;
     private List<Integer> rawFreqArray;
     private TimerTask recordingTask;
     private Boolean recorderState = false;
+
+    /*
     private EditText[] highEString;
     private EditText[] highBString;
     private EditText[] highGString;
@@ -41,13 +39,14 @@ public class MainActivity extends ActionBarActivity {
     private EditText[] highAString;
     private EditText[] lowEString;
     private Spinner rhythmSelection;
+    */
 
-    private TableRow highETable;
-    private TableRow highBTable;
-    private TableRow highGTable;
-    private TableRow highDTable;
-    private TableRow highATable;
-    private TableRow lowETable;
+    private LinearLayout highETable;
+    private LinearLayout highBTable;
+    private LinearLayout highGTable;
+    private LinearLayout highDTable;
+    private LinearLayout highATable;
+    private LinearLayout lowETable;
     private SeekBar tempoSeek;
     private TextView tempoValue;
 
@@ -57,13 +56,13 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scorePrintingXScrollView = (TableLayout) findViewById(R.id.scorePrintingXScrollView);
-        highETable = (TableRow) findViewById(R.id.tableRowhE);
-        highBTable = (TableRow) findViewById(R.id.tableRowB);
-        highGTable = (TableRow) findViewById(R.id.tableRowG);
-        highDTable = (TableRow) findViewById(R.id.tableRowD);
-        highATable = (TableRow) findViewById(R.id.tableRowA);
-        lowETable = (TableRow) findViewById(R.id.tableRowlE);
+        // scorePrintingXScrollView = (TableLayout) findViewById(R.id.scorePrintingXScrollView);
+        highETable = (LinearLayout) findViewById(R.id.highELayout);
+        highBTable = (LinearLayout) findViewById(R.id.BLayout);
+        highGTable = (LinearLayout) findViewById(R.id.GLayout);
+        highDTable = (LinearLayout) findViewById(R.id.DLayout);
+        highATable = (LinearLayout) findViewById(R.id.ALayout);
+        lowETable = (LinearLayout) findViewById(R.id.lowELayout);
         tempoSeek = (SeekBar) findViewById(R.id.tempoBar);
         tempoValue = (TextView) findViewById(R.id.tempoText);
 
@@ -111,6 +110,13 @@ public class MainActivity extends ActionBarActivity {
 
 
     private void wrapperFunc(){
+        highETable.addView(emptyConstructor());
+        highBTable.addView(emptyConstructor());
+        highGTable.addView(emptyConstructor());
+        highDTable.addView(emptyConstructor());
+        highATable.addView(emptyConstructor());
+        lowETable.addView(emptyConstructor());
+       // printer(new int[]{402, 301, 405, 601});
 
         if(!recorderState)
         {
@@ -123,9 +129,16 @@ public class MainActivity extends ActionBarActivity {
             recordingTask = new TimerTask(){
 
             public void run(){
-                int raw = TunerModule.accessRecording();
+                TunerModule module = new TunerModule();
+                int raw = module.getFrequency();
             Integer rawFreq = new Integer(raw);
-            rawFreqArray.add(rawFreq);
+            if(rawFreq.intValue() == 0) {
+                rawFreqArray.add(new Integer(800)); // 800
+            }
+            else {
+                rawFreqArray.add(rawFreq);
+            }
+
             }
 
             };
@@ -145,6 +158,7 @@ public class MainActivity extends ActionBarActivity {
 
         recorderState = !recorderState;
 
+
     }
 
     private int[] returningResults(){
@@ -156,14 +170,33 @@ public class MainActivity extends ActionBarActivity {
                 rawFreqCoverted[i] = rawFreqArray.get(i);
             }
         }
-        ShortestDistCalculations_Forrest resultArray = new ShortestDistCalculations_Forrest(rawFreqCoverted); // Forrest to be removed and discussed about actual method
+        ShortestDistCalculations resultArray = new ShortestDistCalculations(rawFreqCoverted);
         return resultArray.getResults();
+
+    }
+
+    private EditText emptyConstructor(){
+        EditText empty = new EditText(MainActivity.this);
+        empty.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                ,ViewGroup.LayoutParams.WRAP_CONTENT));
+        empty.setText("   ", TextView.BufferType.EDITABLE);
+
+        return empty;
+    }
+
+    private EditText outputConst(String a){
+
+        EditText output = new EditText(MainActivity.this);
+        output.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                ,ViewGroup.LayoutParams.WRAP_CONTENT));
+        output.setText(a, TextView.BufferType.EDITABLE);
+        return output;
 
     }
 
     private void printer(int[] results){
 
-        highEString = new EditText[results.length];
+       /*  highEString = new EditText[results.length];
         highBString = new EditText[results.length];
         highGString = new EditText[results.length];
         highDString = new EditText[results.length];
@@ -171,70 +204,78 @@ public class MainActivity extends ActionBarActivity {
          lowEString = new EditText[results.length];
 
         EditText[][] wrapper = new EditText[][]{highEString, highBString, highGString, highDString, highAString, lowEString};
-        EditText empty = new EditText(this);
-        empty.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                ,ViewGroup.LayoutParams.WRAP_CONTENT));
-        empty.setText(" ");
+        */
+
+
+
 
 
         for (int i = 0; i < results.length; i++)
         {
             int encoded = results[i];
             int string = encoded/100;
-            int fretBox = encoded % 100;
-            EditText output = new EditText(this);
-            output.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                    ,ViewGroup.LayoutParams.WRAP_CONTENT));
-            output.setText(fretBox);
+            int fretBoxraw = encoded % 100;
+            String fretBox = Integer.toString(fretBoxraw);
 
+            if (string == 8) {
+                highETable.addView(emptyConstructor());
+                highBTable.addView(emptyConstructor());
+                highGTable.addView(emptyConstructor());
+                highDTable.addView(emptyConstructor());
+                highATable.addView(emptyConstructor());
+                lowETable.addView(emptyConstructor());
+            }
+
+            else {
             switch(string) {
                 case 1:
-                    highETable.addView(output);
-                    highBTable.addView(empty);
-                    highGTable.addView(empty);
-                    highDTable.addView(empty);
-                    highATable.addView(empty);
-                    lowETable.addView(empty);
+                    highETable.addView(emptyConstructor());
+                    highBTable.addView(emptyConstructor());
+                    highGTable.addView(emptyConstructor());
+                    highDTable.addView(emptyConstructor());
+                    highATable.addView(emptyConstructor());
+                    lowETable.addView(outputConst(fretBox));
 
                 case 2:
-                    highETable.addView(empty);
-                    highBTable.addView(output);
-                    highGTable.addView(empty);
-                    highDTable.addView(empty);
-                    highATable.addView(empty);
-                    lowETable.addView(empty);
+                    highETable.addView(emptyConstructor());
+                    highBTable.addView(emptyConstructor());
+                    highGTable.addView(emptyConstructor());
+                    highDTable.addView(emptyConstructor());
+                    highATable.addView(outputConst(fretBox));
+                    lowETable.addView(emptyConstructor());
 
                 case 3:
-                    highETable.addView(empty);
-                    highBTable.addView(empty);
-                    highGTable.addView(output);
-                    highDTable.addView(empty);
-                    highATable.addView(empty);
-                    lowETable.addView(empty);
+                    highETable.addView(emptyConstructor());
+                    highBTable.addView(emptyConstructor());
+                    highGTable.addView(emptyConstructor());
+                    highDTable.addView(outputConst(fretBox));
+                    highATable.addView(emptyConstructor());
+                    lowETable.addView(emptyConstructor());
 
                 case 4:
-                    highETable.addView(empty);
-                    highBTable.addView(empty);
-                    highGTable.addView(empty);
-                    highDTable.addView(output);
-                    highATable.addView(empty);
-                    lowETable.addView(empty);
+                    highETable.addView(emptyConstructor());
+                    highBTable.addView(emptyConstructor());
+                    highGTable.addView(outputConst(fretBox));
+                    highDTable.addView(emptyConstructor());
+                    highATable.addView(emptyConstructor());
+                    lowETable.addView(emptyConstructor());
 
                 case 5:
-                    highETable.addView(empty);
-                    highBTable.addView(empty);
-                    highGTable.addView(empty);
-                    highDTable.addView(empty);
-                    highATable.addView(output);
-                    lowETable.addView(empty);
+                    highETable.addView(emptyConstructor());
+                    highBTable.addView(outputConst(fretBox));
+                    highGTable.addView(emptyConstructor());
+                    highDTable.addView(emptyConstructor());
+                    highATable.addView(emptyConstructor());
+                    lowETable.addView(emptyConstructor());
 
                 case 6:
-                    highETable.addView(empty);
-                    highBTable.addView(empty);
-                    highGTable.addView(empty);
-                    highDTable.addView(empty);
-                    highATable.addView(empty);
-                    lowETable.addView(output);
+                    highETable.addView(outputConst(fretBox));
+                    highBTable.addView(emptyConstructor());
+                    highGTable.addView(emptyConstructor());
+                    highDTable.addView(emptyConstructor());
+                    highATable.addView(emptyConstructor());
+                    lowETable.addView(emptyConstructor());
+            }
             }
 
         }

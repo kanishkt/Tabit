@@ -1,158 +1,130 @@
 package com.tabituiuc.tabit;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import android.app.Activity;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
-import android.media.MediaRecorder;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Button;
+import android.media.MediaRecorder.AudioSource;
+import android.os.AsyncTask;
+import edu.emory.mathcs.jtransforms.fft.*;
+import edu.emory.mathcs.utils.*;
+
 
 public class TunerModule {
-  
-private static final int RECORDER_SAMPLERATE = 8000;
-private static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_MONO;
-private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-private AudioRecord recorder = null;
-private Thread recordingThread = null;
-private boolean isRecording = false;
 
-@Override
-public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.main);
+    protected int frequency;
 
-    setButtonHandlers();
-    enableButtons(false);
+    public TunerModule(){
 
-    int bufferSize = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE,
-            RECORDER_CHANNELS, RECORDER_AUDIO_ENCODING); 
-}
+        new readFrequencies().execute();
+    }
 
-private void setButtonHandlers() {
-    ((Button) findViewById(R.id.btnStart)).setOnClickListener(btnClick);
-    ((Button) findViewById(R.id.btnStop)).setOnClickListener(btnClick);
-}
+    private class readFrequencies extends AsyncTask<Void,Integer,Integer> {
 
-private void enableButton(int id, boolean isEnable) {
-    ((Button) findViewById(id)).setEnabled(isEnable);
-}
+        @Override
+        protected Integer doInBackground(Void... arg0) {
+            AudioRecord recorder = null;
+            int bufferSize = 0;
+            boolean recording = true;
 
-private void enableButtons(boolean isRecording) {
-    enableButton(R.id.btnStart, !isRecording);
-    enableButton(R.id.btnStop, isRecording);
-}
+            int rate = 8000;
+            short audioFormat = AudioFormat.ENCODING_PCM_16BIT;
+            short channelConfig = AudioFormat.CHANNEL_IN_MONO;
 
-int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
-int BytesPerElement = 2; // 2 bytes in 16bit format
+            try {
+                bufferSize = AudioRecord.getMinBufferSize(rate,channelConfig, audioFormat);
 
-public static int accessRecording(){
-    recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
-            RECORDER_SAMPLERATE, RECORDER_CHANNELS,
-            RECORDER_AUDIO_ENCODING, BufferElements2Rec * BytesPerElement);
+                recorder = new AudioRecord(AudioSource.DEFAULT, rate,
+                        channelConfig, audioFormat, bufferSize);
 
-    recorder.startRecording();
-    return 303; // for testing
-}
-private void startRecording() {
+                if (recorder.getState() == AudioRecord.STATE_INITIALIZED) {
+                    /*
+                     *  Android 4.1.2
+                     * 
+                     in recorder_id = recorder.getAudioSessionId();
+                    if (NoiseSuppressor.isAvailable()) NoiseSuppressor.create(recorder_id);
+                    */
+                }
+                else {
+                    // do nothing
+                }
+            } catch (Exception e) {}
+
+            short[] audioData = new short[bufferSize];
+
+            if (recorder != null) {
+                while (recording) {
+                    if (recorder.getRecordingState() == AudioRecord.RECORDSTATE_STOPPED) {
+                        recorder.startRecording();
+                    }
+                    else {
+                        int numshorts = recorder.read(audioData,0,audioData.length);
+                        if ((numshorts != AudioRecord.ERROR_INVALID_OPERATION) &&
+                                (numshorts != AudioRecord.ERROR_BAD_VALUE)) {
 
 
-    isRecording = true;
-    recordingThread = new Thread(new Runnable() {
-        public void run() {
-            writeAudioDataToFile();
+                            double[] preRealData = new double[bufferSize];
+                            double PI = 3.14159265359;
+                            for (int i = 0; i < bufferSize; i++) {
+                                double multiplier = 0.5 * (1 - Math.cos(2*PI*i/(bufferSize-1)));
+                                preRealData[i] = multiplier * audioData[i];
+                            }
+
+                            DoubleFFT_1D fft = new DoubleFFT_1D(bufferSize);
+                            double[] realData = new double[bufferSize * 2];
+
+                            for (int i=0;i<bufferSize;i++) {
+                                realData[2*i] = preRealData[i];
+                                realData[2*i+1] = 0;
+                            }
+                            fft.complexForward(realData);
+
+                            double magnitude[] = new double[bufferSize / 2];
+
+                            for (int i = 0; i < magnitude.length; i++) {
+                                double R = realData[2 * i];
+                                double I = realData[2 * i + 1];
+
+                                magnitude[i] = Math.sqrt(I*I + R*R);
+                            }
+
+                            int maxIndex = 0;
+                            double max = magnitude[0];
+                            for(int i = 1; i < magnitude.length; i++) {
+                                if (magnitude[i] > max) {
+                                    max = magnitude[i];
+                                    maxIndex = i;
+                                }
+                            }
+
+                            int frequency = rate * maxIndex / bufferSize;
+                            publishProgress(frequency);
+                        }
+                        else {
+
+                            return -1;
+                        }
+                    }
+                }
+
+                if (recorder.getState() == AudioRecord.RECORDSTATE_RECORDING)
+                    recorder.stop(); //stop the recorder before ending the thread
+                recorder.release();
+                recorder=null;
+            }
+            return 0;
         }
-    }, "AudioRecorder Thread");
-    recordingThread.start();
-}
 
-    //convert short to byte
-private byte[] short2byte(short[] sData) {
-    int shortArrsize = sData.length;
-    byte[] bytes = new byte[shortArrsize * 2];
-    for (int i = 0; i < shortArrsize; i++) {
-        bytes[i * 2] = (byte) (sData[i] & 0x00FF);
-        bytes[(i * 2) + 1] = (byte) (sData[i] >> 8);
-        sData[i] = 0;
-    }
-    return bytes;
-
-}
-
-private void writeAudioDataToFile() {
-    // Write the output audio in byte
-
-    String filePath = "/sdcard/voice8K16bitmono.pcm";
-    short sData[] = new short[BufferElements2Rec];
-
-    FileOutputStream os = null;
-    try {
-        os = new FileOutputStream(filePath);
-    } catch (FileNotFoundException e) {
-        e.printStackTrace();
-    }
-
-    while (isRecording) {
-        // gets the voice output from microphone to byte format
-
-        recorder.read(sData, 0, BufferElements2Rec);
-        System.out.println("Short wirting to file" + sData.toString());
-        try {
-            // // writes the data to file from buffer
-            // // stores the voice buffer
-            byte bData[] = short2byte(sData);
-            os.write(bData, 0, BufferElements2Rec * BytesPerElement);
-        } catch (IOException e) {
-            e.printStackTrace();
+        protected void onProgressUpdate(Integer... f) {
+           // do nothing
         }
-    }
-    try {
-        os.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
 
-private void stopRecording() {
-    // stops the recording activity
-    if (null != recorder) {
-        isRecording = false;
-        recorder.stop();
-        recorder.release();
-        recorder = null;
-        recordingThread = null;
-    }
-}
-
-private View.OnClickListener btnClick = new View.OnClickListener() {
-    public void onClick(View v) {
-        switch (v.getId()) {
-        case R.id.btnStart: {
-            enableButtons(true);
-            startRecording();
-            break;
+        protected void onPostExecute(Integer f) {
+            frequency = f.intValue();
         }
-        case R.id.btnStop: {
-            enableButtons(false);
-            stopRecording();
-            break;
-        }
-        }
-    }
-};
 
-@Override
-public boolean onKeyDown(int keyCode, KeyEvent event) {
-    if (keyCode == KeyEvent.KEYCODE_BACK) {
-        finish();
-    }
-    return super.onKeyDown(keyCode, event);
-}
-}
 
+    }
+
+    public int getFrequency(){
+        return frequency;
+    }
 }
