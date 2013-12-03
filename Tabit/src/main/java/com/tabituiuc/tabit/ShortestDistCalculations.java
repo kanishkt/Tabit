@@ -158,6 +158,12 @@ public class ShortestDistCalculations {
     }
 
     public void nextnote(int i){
+        if (frequencies[i] == 800)
+        {
+            setEmpty(i);
+        }
+
+        else {
     	possible=possibleSteps(frequencies[i]);
     	int have = haveGoodPlaceOnSameString(i);
     	if(have!=-1)
@@ -167,6 +173,7 @@ public class ShortestDistCalculations {
     		set(indexOfMin,i);
     		switchString(indexOfMin);
     	}
+        }
     }
     private void analyzer(){
         int j = 0;
@@ -177,7 +184,7 @@ public class ShortestDistCalculations {
         }
 
         firstnote(j);
-        for(int i=j+1;i<numSteps;i++){
+        for(int i = j+1; i<numSteps; i++){
              nextnote(i);
         }
     }
