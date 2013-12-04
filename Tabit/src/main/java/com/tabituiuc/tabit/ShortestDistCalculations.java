@@ -123,7 +123,7 @@ public class ShortestDistCalculations {
     	//if(temp!=0) beginBox = temp;      // if this note is push string without pressing box, then we change string but don't change beginbox--Is that correct?
     }
 
-    private int haveGoodPlaceOnSameString( int indexOfNote){
+    private int haveGoodPlaceOnSameString(int indexOfNote){
     	int i=0;
     	while(i<6 && possible[i]!=0){
     		if(possible[i]/100==beginString  &&(Math.abs(possible[i]%100-beginBox)<=BOX_DIFF))
@@ -202,7 +202,7 @@ public class ShortestDistCalculations {
 
 
 
-        ShortestDistCalculations test = new ShortestDistCalculations(new int[] {494, 523, 494, 440});
+        ShortestDistCalculations test = new ShortestDistCalculations(new int[] {494, 523, 494, 784});
         int[] result = test.getResults();
         int[] firstresult = result;
         for(int i=0;i<4;i++){

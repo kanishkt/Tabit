@@ -40,10 +40,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="5dp" >
 
-                        <EditText
-                            android:id="@+id/highEStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/highELayout">
+
+                        </LinearLayout>
                     </TableRow>
 
                     <TableRow
@@ -51,10 +54,13 @@
                         android:layout_height="5dp"
                         android:id="@+id/tableRowB">
 
-                        <EditText
-                            android:id="@+id/BStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/BLayout">
+
+                        </LinearLayout>
                     </TableRow>
 
                     <TableRow
@@ -62,10 +68,13 @@
                         android:layout_height="5dp"
                         android:id="@+id/tableRowG" >
 
-                        <EditText
-                            android:id="@+id/editText2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/GLayout">
+
+                        </LinearLayout>
                     </TableRow>
 
                     <TableRow
@@ -73,10 +82,13 @@
                         android:layout_height="5dp"
                         android:id="@+id/tableRowD" >
 
-                        <EditText
-                            android:id="@+id/editText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/DLayout">
+
+                        </LinearLayout>
 
                     </TableRow>
 
@@ -85,10 +97,13 @@
                         android:layout_height="5dp"
                         android:id="@+id/tableRowA">
 
-                        <EditText
-                            android:id="@+id/AStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/ALayout">
+
+                        </LinearLayout>
                     </TableRow>
 
                     <TableRow
@@ -96,64 +111,16 @@
                         android:layout_height="5dp"
                         android:id="@+id/tableRowlE">
 
-                        <EditText
-                            android:id="@+id/EStringEditText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:id="@+id/lowELayout">
+
+                        </LinearLayout>
                     </TableRow>
                 </TableLayout>
             </HorizontalScrollView>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/tableRow2">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rhythm_button_text"
-                android:id="@+id/rhythmTextView"
-                android:layout_margin="0dp"/>
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/rhythmSelector"
-                android:clickable="false"
-                android:layout_span="2"
-                android:layout_weight="1" />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/tableRow3">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tempo_button_text"
-                android:id="@+id/tempoLabel"
-                android:layout_margin="0dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/initial_tempo"
-                android:textSize="25dp"
-                android:id="@+id/tempoText"
-                android:layout_weight="2" />
-
-            <SeekBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tempoBar"
-                android:focusableInTouchMode="true"
-                android:layout_weight="60" />
 
         </TableRow>
 
@@ -165,11 +132,24 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/start_stop_button_text"
                 android:id="@+id/startButton"
                 android:layout_weight="1"
-                android:layout_column="0" />
+                android:layout_column="0"
+                android:text="@string/start_stop_button_text" />
 
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/tableRow2">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_button_text"
+                android:layout_weight="1"
+                android:id="@+id/clearButton" />
         </TableRow>
 
     </TableLayout>

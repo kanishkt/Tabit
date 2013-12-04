@@ -114,7 +114,7 @@ public class TunerModule {
         }
 
         protected void onProgressUpdate(Integer... f) {
-           // do nothing
+           frequency = f[0].intValue();
         }
 
         protected void onPostExecute(Integer f) {
@@ -125,6 +125,7 @@ public class TunerModule {
     }
 
     public int getFrequency(){
+
         return frequency;
     }
 }

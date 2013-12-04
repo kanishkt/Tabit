@@ -47,14 +47,16 @@ public class MainActivity extends ActionBarActivity {
     private LinearLayout highDTable;
     private LinearLayout highATable;
     private LinearLayout lowETable;
-    private SeekBar tempoSeek;
-    private TextView tempoValue;
+
+    TunerModule module;
 
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        module = new TunerModule();
+
 
         // scorePrintingXScrollView = (TableLayout) findViewById(R.id.scorePrintingXScrollView);
         highETable = (LinearLayout) findViewById(R.id.highELayout);
@@ -63,9 +65,6 @@ public class MainActivity extends ActionBarActivity {
         highDTable = (LinearLayout) findViewById(R.id.DLayout);
         highATable = (LinearLayout) findViewById(R.id.ALayout);
         lowETable = (LinearLayout) findViewById(R.id.lowELayout);
-        tempoSeek = (SeekBar) findViewById(R.id.tempoBar);
-        tempoValue = (TextView) findViewById(R.id.tempoText);
-
         if (savedInstanceState == null) {
             /* getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -75,14 +74,12 @@ public class MainActivity extends ActionBarActivity {
         }
 
         setButtonOnClickListeners();
-        tempoSeek.setOnSeekBarChangeListener(tempoChangeListner);
     }
 
     private SeekBar.OnSeekBarChangeListener tempoChangeListner = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 int stringValue = seekBar.getProgress() + 80; // to be tested
-                tempoValue.setText(stringValue);
         }
 
         @Override
@@ -98,6 +95,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void setButtonOnClickListeners(){
         ((Button) findViewById(R.id.startButton)).setOnClickListener(startClicker);
+        ((Button) findViewById(R.id.clearButton)).setOnClickListener(clearClicker);
     }
 
     private View.OnClickListener startClicker = new View.OnClickListener(){
@@ -109,14 +107,22 @@ public class MainActivity extends ActionBarActivity {
     };
 
 
+    private View.OnClickListener clearClicker = new View.OnClickListener(){
+
+        @Override
+        public void onClick(View view) {
+            highBTable.removeAllViews();
+            lowETable.removeAllViews();
+            highGTable.removeAllViews();
+            highDTable.removeAllViews();
+            highATable.removeAllViews();
+            highETable.removeAllViews();
+        }
+    };
+
+
+
     private void wrapperFunc(){
-        highETable.addView(emptyConstructor());
-        highBTable.addView(emptyConstructor());
-        highGTable.addView(emptyConstructor());
-        highDTable.addView(emptyConstructor());
-        highATable.addView(emptyConstructor());
-        lowETable.addView(emptyConstructor());
-       // printer(new int[]{402, 301, 405, 601});
 
         if(!recorderState)
         {
@@ -129,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
             recordingTask = new TimerTask(){
 
             public void run(){
-                TunerModule module = new TunerModule();
+                // TunerModule module = new TunerModule();
                 int raw = module.getFrequency();
             Integer rawFreq = new Integer(raw);
             if(rawFreq.intValue() == 0) {
@@ -144,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
             };
 
 
-        t.scheduleAtFixedRate(recordingTask, 0 ,10);
+        t.scheduleAtFixedRate(recordingTask, 0 ,20);
 
 
 
@@ -179,7 +185,8 @@ public class MainActivity extends ActionBarActivity {
         EditText empty = new EditText(MainActivity.this);
         empty.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
                 ,ViewGroup.LayoutParams.WRAP_CONTENT));
-        empty.setText("   ", TextView.BufferType.EDITABLE);
+        empty.setText("  ", TextView.BufferType.EDITABLE);
+        empty.setWidth(70);
 
         return empty;
     }
@@ -190,11 +197,15 @@ public class MainActivity extends ActionBarActivity {
         output.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
                 ,ViewGroup.LayoutParams.WRAP_CONTENT));
         output.setText(a, TextView.BufferType.EDITABLE);
+        output.setWidth(100);
         return output;
 
     }
 
     private void printer(int[] results){
+
+
+
 
        /*  highEString = new EditText[results.length];
         highBString = new EditText[results.length];
@@ -235,6 +246,8 @@ public class MainActivity extends ActionBarActivity {
                     highDTable.addView(emptyConstructor());
                     highATable.addView(emptyConstructor());
                     lowETable.addView(outputConst(fretBox));
+                    break;
+
 
                 case 2:
                     highETable.addView(emptyConstructor());
@@ -243,6 +256,8 @@ public class MainActivity extends ActionBarActivity {
                     highDTable.addView(emptyConstructor());
                     highATable.addView(outputConst(fretBox));
                     lowETable.addView(emptyConstructor());
+                    break;
+
 
                 case 3:
                     highETable.addView(emptyConstructor());
@@ -251,6 +266,8 @@ public class MainActivity extends ActionBarActivity {
                     highDTable.addView(outputConst(fretBox));
                     highATable.addView(emptyConstructor());
                     lowETable.addView(emptyConstructor());
+                    break;
+
 
                 case 4:
                     highETable.addView(emptyConstructor());
@@ -259,6 +276,8 @@ public class MainActivity extends ActionBarActivity {
                     highDTable.addView(emptyConstructor());
                     highATable.addView(emptyConstructor());
                     lowETable.addView(emptyConstructor());
+                    break;
+
 
                 case 5:
                     highETable.addView(emptyConstructor());
@@ -267,6 +286,8 @@ public class MainActivity extends ActionBarActivity {
                     highDTable.addView(emptyConstructor());
                     highATable.addView(emptyConstructor());
                     lowETable.addView(emptyConstructor());
+                    break;
+
 
                 case 6:
                     highETable.addView(outputConst(fretBox));
@@ -275,6 +296,8 @@ public class MainActivity extends ActionBarActivity {
                     highDTable.addView(emptyConstructor());
                     highATable.addView(emptyConstructor());
                     lowETable.addView(emptyConstructor());
+                    break;
+
             }
             }
 
