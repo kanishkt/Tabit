@@ -150,7 +150,7 @@ public class MainActivity extends ActionBarActivity {
             };
 
 
-        t.scheduleAtFixedRate(recordingTask, 0 ,20);
+        t.scheduleAtFixedRate(recordingTask, 0 ,200);
 
 
 
@@ -186,7 +186,7 @@ public class MainActivity extends ActionBarActivity {
         empty.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
                 ,ViewGroup.LayoutParams.WRAP_CONTENT));
         empty.setText("  ", TextView.BufferType.EDITABLE);
-        empty.setWidth(70);
+        empty.setWidth(100);
 
         return empty;
     }

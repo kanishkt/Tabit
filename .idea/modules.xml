@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Tabit/Tabit.iml" filepath="$PROJECT_DIR$/Tabit/Tabit.iml" />
       <module fileurl="file://$PROJECT_DIR$/TabitProject.iml" filepath="$PROJECT_DIR$/TabitProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TunerExternal/TunerExternal.iml" filepath="$PROJECT_DIR$/TunerExternal/TunerExternal.iml" />
     </modules>
   </component>
 </project>
