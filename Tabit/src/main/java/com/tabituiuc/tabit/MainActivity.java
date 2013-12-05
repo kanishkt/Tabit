@@ -31,16 +31,6 @@ public class MainActivity extends ActionBarActivity {
     private TimerTask recordingTask;
     private Boolean recorderState = false;
 
-    /*
-    private EditText[] highEString;
-    private EditText[] highBString;
-    private EditText[] highGString;
-    private EditText[] highDString;
-    private EditText[] highAString;
-    private EditText[] lowEString;
-    private Spinner rhythmSelection;
-    */
-
     private LinearLayout highETable;
     private LinearLayout highBTable;
     private LinearLayout highGTable;
@@ -58,7 +48,6 @@ public class MainActivity extends ActionBarActivity {
         module = new TunerModule();
 
 
-        // scorePrintingXScrollView = (TableLayout) findViewById(R.id.scorePrintingXScrollView);
         highETable = (LinearLayout) findViewById(R.id.highELayout);
         highBTable = (LinearLayout) findViewById(R.id.BLayout);
         highGTable = (LinearLayout) findViewById(R.id.GLayout);
@@ -66,33 +55,11 @@ public class MainActivity extends ActionBarActivity {
         highATable = (LinearLayout) findViewById(R.id.ALayout);
         lowETable = (LinearLayout) findViewById(R.id.lowELayout);
         if (savedInstanceState == null) {
-            /* getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
-                    */
 
         }
 
         setButtonOnClickListeners();
     }
-
-    private SeekBar.OnSeekBarChangeListener tempoChangeListner = new SeekBar.OnSeekBarChangeListener() {
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int stringValue = seekBar.getProgress() + 80; // to be tested
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-            // do nothing
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-            // do nothing
-        }
-    };
-
     private void setButtonOnClickListeners(){
         ((Button) findViewById(R.id.startButton)).setOnClickListener(startClicker);
         ((Button) findViewById(R.id.clearButton)).setOnClickListener(clearClicker);
@@ -203,22 +170,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void printer(int[] results){
-
-
-
-
-       /*  highEString = new EditText[results.length];
-        highBString = new EditText[results.length];
-        highGString = new EditText[results.length];
-        highDString = new EditText[results.length];
-        highAString = new EditText[results.length];
-         lowEString = new EditText[results.length];
-
-        EditText[][] wrapper = new EditText[][]{highEString, highBString, highGString, highDString, highAString, lowEString};
-        */
-
-
-
 
 
         for (int i = 0; i < results.length; i++)

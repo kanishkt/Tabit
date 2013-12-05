@@ -8,19 +8,10 @@ package com.tabituiuc.tabit;
 Calls the Tuners Module continuously and returns 2D arrays with recursion methods
  */
 
-/* Notes from Forrest:
-    Basically what my code does is that i find analyze the frequencies and find all the box and string combinations possible of the current note,
-    then return the closest option, recording this combination and find the next frequency, and making use of the combination i recorded to
-    analyze the next possible options. Then finally returning an array. I think we better have a meeting on monday to discuss further about this.
-   
-   Notes from Susan:
-    I didn't test it because I need data to implement possibleSteps() method. But check to see if I got your idea right.
- */
 
 public class ShortestDistCalculations {
 
 
-    //  private static final double MAX_DIFF = 32767;   // this holds the maximum allowable differnce in frequency
     private static final int BOX_DIFF = 2;   //maximum allowed difference in box
     private int[] possible = new int[6];    //possible string and box position for every step, like something like 606 represents 6th string 6th box, Instead of using arrays, since this saves time.
     private int[] frequencies;// Input frequency from Forrest's Main Activity method, i will call a constructor to initialize such method.
@@ -120,14 +111,12 @@ public class ShortestDistCalculations {
     private void switchString(int indexOfPosition){
     	beginString = possible[indexOfPosition]/100;
     	beginBox = possible[indexOfPosition]%100;
-    	//if(temp!=0) beginBox = temp;      // if this note is push string without pressing box, then we change string but don't change beginbox--Is that correct?
-    }
+      }
 
     private int haveGoodPlaceOnSameString(int indexOfNote){
     	int i=0;
     	while(i<6 && possible[i]!=0){
     		if(possible[i]/100==beginString  &&(Math.abs(possible[i]%100-beginBox)<=BOX_DIFF))
-    			// if(results[indexOfNote-1]%100==0 || Math.abs(results[indexOfNote-1]%100-possible[i]%100)<=BOX_DIFF)
     		     	return i;
             i++;
     	}
